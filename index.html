@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+  <style>
+
+    .container {
+      max-width: 400px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+
+    .input-form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .output {
+      border: 2px solid #333;
+      height: 200px;
+    }
+
+    .output-container {
+      padding-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rock Paper Scissors Game</h1>
+    <!-- Input -->
+    <form class="input-form js-input-form">
+      <label>Select One:</label>
+      <div>
+        <input id="rock" type="radio" name="item-input" value="rock"/>
+        <label for="rock">Rock</label>
+      </div>
+      <div>
+        <input id="paper" type="radio" name="item-input" value="paper"/>
+        <label for="paper">Paper</label>
+      </div>
+      <div>
+        <input id="scissors" type="radio" name="item-input" value="scissors"/>
+        <label for="scissors">Scissors</label>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Output -->
+    <div class="output-container">
+      <div class="output js-output"></div>
+    </div>
+
+  </div>
+  <script>
+    //grab and cache all DOM nodes of interest
+    const inputForm = document.querySelector(".js-input-form");
+    const output = document.querySelector(".js-output");
+    let userSelection = "";
+
+    inputForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      userSelection = e.target.elements["item-input"].value
+
+
+      console.log("userSelection", userSelection);
+    })
+    //generate computer selection
+
+    //compare users selection to computer selection
+
+    //output who picked what and who won the game
+  </script>
+
+</body>
+</html>
