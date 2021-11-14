@@ -90,8 +90,8 @@
     const playerOutput = document.querySelector(".js-player-selection-output");
     const computerOutput = document.querySelector(".js-computer-selection-output");
     const imageSources = {
-      "rock": "https://unsplash.com/photos/QxjEi8Fs9Hg",
-      "paper": "https://unsplash.com/photos/4JxV3Gs42Ks",
+      "rock": "https://images.unsplash.com/photo-1525857597365-5f6dbff2e36e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      "paper": "https://images.unsplash.com/photo-1520004434532-668416a08753?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
       "scissors": "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=80"
     }
     let playerSelection = "";
@@ -112,6 +112,8 @@
 
       }
       //output who picked what and who won the game
+      console.dir(playerOutput);
+      removeAllChildren(playerOutput);
       const playerSelectionImage = document.createElement("img");
       playerSelectionImage.setAttribute("src", imageSources[playerSelection]);
       playerOutput.appendChild(playerSelectionImage);
@@ -131,6 +133,12 @@
       if (randomInt === 2) return "scissors";
 
       console.error(`randomInt is ${randomInt}`);
+    }
+
+    function removeAllChildren(parent) {
+      while(parent.lastChild) {
+        parent.removeChild(parent.lastChild);
+      }
     }
   </script>
 
