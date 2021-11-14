@@ -112,13 +112,21 @@
 
       }
       //output who picked what and who won the game
+
+      //output player selection
       console.dir(playerOutput);
       removeAllChildren(playerOutput);
       const playerSelectionImage = document.createElement("img");
       playerSelectionImage.setAttribute("src", imageSources[playerSelection]);
       playerOutput.appendChild(playerSelectionImage);
       
-    })
+
+      //output computer selection
+      removeAllChildren(computerOutput);
+      const computerSelectionImage = document.createElement("img");
+      computerSelectionImage.setAttribute("src", imageSources[computerSelection]);
+      computerOutput.appendChild(computerSelectionImage);
+    });
 
 
 
