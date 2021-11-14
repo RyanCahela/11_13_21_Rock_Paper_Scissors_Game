@@ -73,7 +73,7 @@
       <div class="output js-output">
         <div class="output__section">
           <h2>Your Selection</h2>
-          <p class="js-player-selection-output"></p>
+          <p class="js-human-selection-output"></p>
         </div>
         <div class="output__section">
           <h2>Computer Selection</h2>
@@ -87,38 +87,38 @@
     //grab and cache all DOM nodes of interest
     const inputForm = document.querySelector(".js-input-form");
     const output = document.querySelector(".js-output");
-    const playerOutput = document.querySelector(".js-player-selection-output");
+    const humanOutput = document.querySelector(".js-human-selection-output");
     const computerOutput = document.querySelector(".js-computer-selection-output");
     const imageSources = {
       "rock": "https://images.unsplash.com/photo-1525857597365-5f6dbff2e36e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       "paper": "https://images.unsplash.com/photo-1520004434532-668416a08753?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
       "scissors": "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=80"
     }
-    let playerSelection = "";
+    let humanSelection = "";
     let computerSelection = "";
 
     inputForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      playerSelection = e.target.elements["item-input"].value
+      humanSelection = e.target.elements["item-input"].value
 
-      console.log("userSelection", playerSelection);
+      console.log("userSelection", humanSelection);
 
       //generate computer selection
       computerSelection = getComputerSelection();
       console.log("computerSelection", computerSelection);
 
       //compare users selection to computer selection
-      if(computerSelection === playerSelection) {
+      if(computerSelection === humanSelection) {
 
       }
       //output who picked what and who won the game
 
-      //output player selection
-      console.dir(playerOutput);
-      removeAllChildren(playerOutput);
-      const playerSelectionImage = document.createElement("img");
-      playerSelectionImage.setAttribute("src", imageSources[playerSelection]);
-      playerOutput.appendChild(playerSelectionImage);
+      //output human selection
+      console.dir(humanOutput);
+      removeAllChildren(humanOutput);
+      const humanSelectionImage = document.createElement("img");
+      humanSelectionImage.setAttribute("src", imageSources[humanSelection]);
+      humanOutput.appendChild(humanSelectionImage);
       
 
       //output computer selection
@@ -128,11 +128,8 @@
       computerOutput.appendChild(computerSelectionImage);
     });
 
-
-
-
-
     //helper functions
+
     function getComputerSelection() {
       const randomInt = Math.floor(Math.random() * 3);
       
