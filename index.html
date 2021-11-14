@@ -6,13 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rock Paper Scissors Game</title>
   <style>
+    *,
+    *::after,
+    *::before {
+      box-sizing: border-box;
+    }
 
     .container {
       max-width: 400px;
       margin-right: auto;
       margin-left: auto;
     }
-
 
     .input-form {
       display: flex;
@@ -24,10 +28,18 @@
     .output {
       border: 2px solid #333;
       height: 200px;
+      display: flex;
     }
 
     .output-container {
       padding-top: 2rem;
+
+    }
+
+    .output__section {
+      border: 2px solid #333;
+      padding-block: 1rem;
+      padding-inline: 2rem;
     }
   </style>
 </head>
@@ -54,7 +66,16 @@
     
     <!-- Output -->
     <div class="output-container">
-      <div class="output js-output"></div>
+      <div class="output js-output">
+        <div class="output__section">
+          <h2>Your Selection</h2>
+          <p></p>
+        </div>
+        <div class="output__section">
+          <h2>Computer Selection</h2>
+          <p></p>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -62,7 +83,13 @@
     //grab and cache all DOM nodes of interest
     const inputForm = document.querySelector(".js-input-form");
     const output = document.querySelector(".js-output");
+    const imageSources = {
+      "rock": "https://unsplash.com/photos/QxjEi8Fs9Hg",
+      "paper": "https://unsplash.com/photos/4JxV3Gs42Ks",
+      "scissors": "https://unsplash.com/photos/SmocKx2oDZc"
+    }
     let userSelection = "";
+    let computerSelection = "";
 
     inputForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -70,12 +97,36 @@
 
 
       console.log("userSelection", userSelection);
+
+      //generate computer selection
+      computerSelection = getComputerSelection();
+      console.log("computerSelection", computerSelection);
+
+
+
+      //compare users selection to computer selection
+      if(computerSelection === userSelection) {
+        
+      }
+      
+      
+      //output who picked what and who won the game
     })
-    //generate computer selection
 
-    //compare users selection to computer selection
 
-    //output who picked what and who won the game
+
+
+
+    //helper functions
+    function getComputerSelection() {
+      const randomInt = Math.floor(Math.random() * 3);
+      
+      if (randomInt === 0) return "rock";
+      if (randomInt === 1) return "paper";
+      if (randomInt === 2) return "scissors";
+
+      console.error(`randomInt is ${randomInt}`);
+    }
   </script>
 
 </body>
