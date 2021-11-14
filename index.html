@@ -114,21 +114,26 @@
       //output who picked what and who won the game
 
       //output human selection
-      console.dir(humanOutput);
-      removeAllChildren(humanOutput);
-      const humanSelectionImage = document.createElement("img");
-      humanSelectionImage.setAttribute("src", imageSources[humanSelection]);
-      humanOutput.appendChild(humanSelectionImage);
+      outputPlayerSelection({
+        outputElement: humanOutput,
+        playerSelection: humanSelection
+      }); 
       
 
       //output computer selection
-      removeAllChildren(computerOutput);
-      const computerSelectionImage = document.createElement("img");
-      computerSelectionImage.setAttribute("src", imageSources[computerSelection]);
-      computerOutput.appendChild(computerSelectionImage);
+      outputPlayerSelection({
+        outputElement: computerOutput,
+        playerSelection: computerSelection
+      });
     });
 
     //helper functions
+    function outputPlayerSelection({outputElement, playerSelection}) {
+      removeAllChildren(outputElement);
+      const selectionImage = document.createElement("img");
+      selectionImage.setAttribute("src", imageSources[playerSelection]);
+      outputElement.appendChild(selectionImage); 
+    }
 
     function getComputerSelection() {
       const randomInt = Math.floor(Math.random() * 3);
