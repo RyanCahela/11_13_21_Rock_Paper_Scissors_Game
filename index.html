@@ -53,7 +53,26 @@
     .output__section {
       padding-block: 1rem;
       padding-inline: 2rem;
+      flex-basis: 33%;
     }
+
+    .output__computer-selection,
+    .output__game-status {
+      opacity: 0;
+    }
+
+    .fade-in {
+      opacity: 1;
+      transition: opacity 0.5s ease-in 0.5s;
+    }
+
+    @media screen and (min-width: 678px) {
+      .output {
+        flex-direction: row;
+      }
+    }
+
+    
   </style>
 </head>
 <body>
@@ -81,16 +100,16 @@
     <div class="output-container">
       <div class="output js-output">
         <div class="output__section">
-          <h2>Game Status</h2>
-          <p class="js-game-status-output"></p>
-        </div>
-        <div class="output__section">
           <h2>Your Selection</h2>
           <p class="js-human-selection-output"></p>
         </div>
         <div class="output__section">
           <h2>Computer Selection</h2>
-          <p class="js-computer-selection-output"></p>
+          <p class="output__computer-selection js-computer-selection-output"></p>
+        </div>
+        <div class="output__section">
+          <h2>Game Status</h2>
+          <p class="output__game-status js-game-status-output"></p>
         </div>
       </div>
     </div>
@@ -102,56 +121,181 @@
     const output = document.querySelector(".js-output");
     const humanOutput = document.querySelector(".js-human-selection-output");
     const computerOutput = document.querySelector(".js-computer-selection-output");
+    const statusOutput = document.querySelector(".js-game-status-output");
     const imageSources = {
       "rock": "https://images.unsplash.com/photo-1525857597365-5f6dbff2e36e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       "paper": "https://images.unsplash.com/photo-1520004434532-668416a08753?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-      "scissors": "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=80"
+      "scissors": "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=80",
+      "lose": "https://media1.giphy.com/media/10h8CdMQUWoZ8Y/giphy.gif?cid=ecf05e47yyddmmyacobsb15t5pot0k8ar89utea88u8hwz70&rid=giphy.gif&ct=g",
+      "win": "https://media0.giphy.com/media/l0HUnQR733uhm48UM/giphy.gif?cid=ecf05e47ut07c277hzlaeyrjchify9pjczedchj0fq4bqu0r&rid=giphy.gif&ct=g",
+      "tie": "https://media1.giphy.com/media/2ts0GOm9Laawo/giphy.gif?cid=ecf05e476b2hv78jvk1dnz5a1ui698u8vhw3p1yfdtd4f0rn&rid=giphy.gif&ct=g",
     }
     let humanSelection = "";
     let computerSelection = "";
 
     inputForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      humanSelection = e.target.elements["item-input"].value
+      //clear output from previous game
+      removeAllChildren(humanOutput);
+      removeAllChildren(computerOutput);
+      removeAllChildren(statusOutput);
+      removeFadeInClass(computerOutput);
+      removeFadeInClass(statusOutput);
 
-      //generate computer selection
+      //get selections for this round
+      humanSelection = e.target.elements["item-input"].value
       computerSelection = getComputerSelection();
 
       //compare users selection to computer selection
-      if(computerSelection === humanSelection) {
-        
+      if (humanSelection === "rock") {
+        switch(computerSelection) {
+          case "paper":
+            computerWins();
+            break;
+          case "rock":
+            tieGame(); 
+            break;
+          case "scissors":
+            humanWins(); 
+            break;
+          default:
+            console.error(`something wrong in ${humanSelection} switch`);
+        }
       }
-      //output who picked what and who won the game
+
+      if (humanSelection === "paper") {
+        switch(computerSelection) {
+          case "paper":
+            tieGame();
+            break;
+          case "rock":
+            humanWins(); 
+            break;
+          case "scissors":
+            computerWins(); 
+            break;
+          default:
+            console.error(`something wrong in ${humanSelection} switch`);
+        }
+      }
+
+      if (humanSelection === "scissors") {
+        switch(computerSelection) {
+          case "paper":
+            humanWins();
+            break;
+          case "rock":
+            computerWins(); 
+            break;
+          case "scissors":
+            tieGame(); 
+            break;
+          default:
+            console.error(`something wrong in ${humanSelection} switch`);
+        }
+      }
 
       //output human selection
-      outputPlayerSelection({
-        outputElement: humanOutput,
-        playerSelection: humanSelection
-      }); 
+      outputHumanSelection({
+        element: humanOutput, 
+        imageSources: imageSources, 
+        imageKey: humanSelection
+      });
       
-
       //output computer selection
-      outputPlayerSelection({
-        outputElement: computerOutput,
-        playerSelection: computerSelection
+      outputComputerSelection({
+        element: computerOutput,
+        imageSources: imageSources,
+        imageKey: computerSelection
       });
     });
 
     //helper functions
-    function outputPlayerSelection({outputElement, playerSelection}) {
-      removeAllChildren(outputElement);
+    function outputHumanSelection({element, imageSources, imageKey}) {
+      outputImageToDOM({
+        element: humanOutput,
+        imageUrl: imageSources[imageKey]
+      }); 
+    }
+
+    function outputComputerSelection({element, imageSources, imageKey}) {
+      outputImageToDOM({
+        element: computerOutput,
+        imageUrl: imageSources[imageKey]
+      });
+      addFadeInClass(computerOutput);
+    }
+
+    function outputGameStatus({element, imageSources, imageKey}) {
+      outputTextToDOM({
+        element: element,
+        textElementType: "h3",
+        message: `You ${imageKey}!`
+      });
+      outputImageToDOM({
+        element: element,
+        imageUrl: imageSources[imageKey]
+      });
+      addFadeInClass(statusOutput); 
+    }
+
+    function removeFadeInClass(element) {
+      element.classList.remove("fade-in");
+    }
+
+    function addFadeInClass(element) {
+      element.classList.add("fade-in");
+    }
+
+    function computerWins() {
+      outputGameStatus({
+        element: statusOutput, 
+        imageSources: imageSources, 
+        imageKey: "lose"
+      });
+    }
+
+    function humanWins() {
+      outputGameStatus({
+        element: statusOutput, 
+        imageSources: imageSources, 
+        imageKey: "win"
+      });
+    }
+
+    function tieGame() {
+      outputGameStatus({
+        element: statusOutput,
+        imageSources: imageSources,
+        imageKey: "tie"
+      });
+    }
+
+    function outputTextToDOM({element, textElementType, message}) {
+      const textElement = document.createElement(textElementType);
+      textElement.textContent = message;
+      element.appendChild(textElement);
+    }
+
+
+    function outputImageToDOM({element, imageUrl}) {
+      insertImageInElement({
+        element,
+        imageUrl
+      })
+    }
+
+    function insertImageInElement({element, imageUrl}) {
       const selectionImage = document.createElement("img");
-      selectionImage.setAttribute("src", imageSources[playerSelection]);
-      outputElement.appendChild(selectionImage); 
+      selectionImage.setAttribute("src", imageUrl);
+      element.appendChild(selectionImage);
     }
 
     function getComputerSelection() {
-      const randomInt = Math.floor(Math.random() * 3);
-      
+      const randomInt = Math.floor(Math.random() * 3); 
       if (randomInt === 0) return "rock";
       if (randomInt === 1) return "paper";
       if (randomInt === 2) return "scissors";
-
       console.error(`randomInt is ${randomInt}`);
     }
 
