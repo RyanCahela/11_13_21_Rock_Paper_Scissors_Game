@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rock Paper Scissors Game</title>
   <style>
+    :root {
+      --rg-light: 214 47% 23%;
+      --rg-dark: 237 49% 15%;
+    }
     *,
     *::after,
     *::before {
@@ -16,8 +20,14 @@
       width: 100%;
     }
 
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: radial-gradient(at 50% 0, hsl(var(--rg-light)), hsl(var(--rg-dark)));
+      color: whitesmoke;
+    }
+
     .container {
-      max-width: 400px;
+      max-width: 900px;
       margin-right: auto;
       margin-left: auto;
     }
@@ -30,18 +40,17 @@
     }
 
     .output {
-      border: 2px solid #333;
-      height: 200px;
+      border: 2px solid currentColor;
+      justify-content: space-between;
       display: flex;
+      flex-direction: column;
     }
 
     .output-container {
       padding-top: 2rem;
-
     }
 
     .output__section {
-      border: 2px solid #333;
       padding-block: 1rem;
       padding-inline: 2rem;
     }
@@ -72,6 +81,10 @@
     <div class="output-container">
       <div class="output js-output">
         <div class="output__section">
+          <h2>Game Status</h2>
+          <p class="js-game-status-output"></p>
+        </div>
+        <div class="output__section">
           <h2>Your Selection</h2>
           <p class="js-human-selection-output"></p>
         </div>
@@ -101,15 +114,12 @@
       e.preventDefault();
       humanSelection = e.target.elements["item-input"].value
 
-      console.log("userSelection", humanSelection);
-
       //generate computer selection
       computerSelection = getComputerSelection();
-      console.log("computerSelection", computerSelection);
 
       //compare users selection to computer selection
       if(computerSelection === humanSelection) {
-
+        
       }
       //output who picked what and who won the game
 
