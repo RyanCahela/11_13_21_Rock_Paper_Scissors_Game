@@ -63,7 +63,7 @@
 
     .fade-in {
       opacity: 1;
-      transition: opacity 0.5s ease-in 0.5s;
+      transition: opacity 0.5s ease-in;
     }
 
     @media screen and (min-width: 678px) {
@@ -223,7 +223,7 @@
         element: computerOutput,
         imageUrl: imageSources[imageKey]
       });
-      addFadeInClass(computerOutput);
+      setTimeout(() => addFadeInClass(computerOutput), 1000);
     }
 
     function outputGameStatus({element, imageSources, imageKey}) {
@@ -236,10 +236,11 @@
         element: element,
         imageUrl: imageSources[imageKey]
       });
-      addFadeInClass(statusOutput); 
+      setTimeout(() => addFadeInClass(statusOutput), 1500);
     }
 
     function removeFadeInClass(element) {
+      console.log('removeFadeInClass ran');
       element.classList.remove("fade-in");
     }
 
@@ -276,7 +277,6 @@
       textElement.textContent = message;
       element.appendChild(textElement);
     }
-
 
     function outputImageToDOM({element, imageUrl}) {
       insertImageInElement({
